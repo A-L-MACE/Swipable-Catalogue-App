@@ -1,0 +1,70 @@
+package com.example.swipablecatalogueapp;
+
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ViewPager2 viewPager;
+    private ViewPagerAdapter ViewPagerAdapter;
+    private RecyclerView thumbnailRecycler;
+    private Thumbnail thumbnailAdapter;
+    private Button btnPrev, btnNext;
+    private List<CataloguePage> cakeList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        viewPager = findViewById(R.id.viewPager);
+        thumbnailRecycler = findViewById(R.id.thumbnailRecycler);
+        btnPrev = findViewById(R.id.btnPrev);
+        btnNext = findViewById(R.id.btnNext);
+
+        // Initialise the data
+        cakeList = new ArrayList<>();
+        cakeList.add(new CataloguePage("Carrot Cake", "A moist cake made with grated carrots, cinnamon, walnuts and cream cheese frosting.", R.drawable.carrot_cake));
+        cakeList.add(new CataloguePage("Red Velvet Cake", "A soft red sponge cake layered with sweet cream cheese frosting.", R.drawable.red_velvet));
+        cakeList.add(new CataloguePage("Cheesecake", "A rich, creamy cake with a base made from crackers.", R.drawable.cheesecake));
+        cakeList.add(new CataloguePage("Chocolate Fudge Cake", "A decadent chocolate sponge with a thick fudge frosting in between the layers.", R.drawable.chocolate_fudge));
+        cakeList.add(new CataloguePage("Lemon Drizzle Cake", "A tangy lemon sponge with a zesty sugar glaze.", R.drawable.lemon_drizzle));
+        cakeList.add(new CataloguePage("Victoria Sponge", "A classic British sponge with jam and cream filling.", R.drawable.victoria_sponge));
+        cakeList.add(new CataloguePage("Black Forest Cake", "Chocolate layers of sponge with whipped cream and cherries on top.", R.drawable.black_forest));
+
+        // Main ViewPager adapter
+        ViewPagerAdapter = new ViewPagerAdapter(cakeList);
+        viewPager.setAdapter(ViewPagerAdapter);
+
+        // Thumbnail RecyclerView adapter
+        thumbnailAdapter = new Thumbnail(cakeList, position -> viewPager.setCurrentItem(position));
+        thumbnailRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        thumbnailRecycler.setAdapter(thumbnailAdapter);
+
+        // Buttons
+        btnPrev.setOnClickListener(v -> {
+            int current = viewPager.getCurrentItem();
+            if (current > 0) viewPager.setCurrentItem(current - 1);
+        });
+
+        btnNext.setOnClickListener(v -> {
+            int current = viewPager.getCurrentItem();
+            if (current < cakeList.size() - 1) viewPager.setCurrentItem(current + 1);
+        });
+
+        // Sync thumbnails with main view
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                thumbnailAdapter.setSelectedIndex(position);
+                thumbnailRecycler.scrollToPosition(position);
+            }
+        });
+    }
+}
