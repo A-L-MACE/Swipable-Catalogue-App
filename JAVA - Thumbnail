@@ -1,0 +1,82 @@
+package com.example.swipablecatalogueapp;
+
+import android.annotation.SuppressLint;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+// recyclerView adapter for displaying catalogue thumbnails
+public class Thumbnail extends RecyclerView.Adapter<Thumbnail.ThumbViewHolder> {
+
+    // interface to handle thumbnail click events
+    public interface OnThumbClickListener {
+        void onThumbClick(int position);
+    }
+
+    // list of catalogue pages to display
+    private List<CataloguePage> items;
+
+    // click listener for thumbnail selection
+    private OnThumbClickListener listener;
+
+    // currently selected thumbnail index
+    private int selectedIndex = 0;
+
+    // constructor to initialize items and listener
+    public Thumbnail(List<CataloguePage> items, OnThumbClickListener listener) {
+        this.items = items;
+        this.listener = listener;
+    }
+
+    // update the selected thumbnail index
+    public void setSelectedIndex(int i) {
+        selectedIndex = i;
+        notifyDataSetChanged(); // refresh recyclerView to show selection
+    }
+
+    @NonNull
+    @Override
+    public ThumbViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // inflate thumbnail layout for each item
+        @SuppressLint("ResourceType")
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_thumbnail, parent, false);
+        return new ThumbViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ThumbViewHolder holder, final int position) {
+        // set thumbnail image for current position
+        holder.thumb.setImageResource(items.get(position).getImageResId());
+
+        // adjust alpha to indicate selection
+        holder.thumb.setAlpha(position == selectedIndex ? 1f : 0.5f);
+
+        // handle click events on thumbnails
+        holder.thumb.setOnClickListener(v -> {
+            if (listener != null) listener.onThumbClick(position);
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size(); // return total number of thumbnails
+    }
+
+    // view holder class for thumbnail item
+    static class ThumbViewHolder extends RecyclerView.ViewHolder {
+        ImageView thumb;
+
+        @SuppressLint("ResourceType")
+        ThumbViewHolder(@NonNull View itemView) {
+            super(itemView);
+            // bind thumbnail image view
+            thumb = itemView.findViewById(R.id.thumbnail_image);
+        }
+    }
+}
