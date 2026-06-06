@@ -1,0 +1,24 @@
+package com.example.swipablecatalogueapp;
+
+// model class representing a single catalogue page
+public class CataloguePage {
+    private String title;        // title of the catalogue page
+    private String description;  // description of the page
+    private int imageResId;      // resource id of the image for the page
+
+    // constructor to initialize page data
+    public CataloguePage(String title, String description, int imageResId) {
+        this.title = title;
+        this.description = description;
+        this.imageResId = imageResId;
+    }
+
+    // getter for title
+    public String getTitle() { return title; }
+
+    // getter for description
+    public String getDescription() { return description; }
+
+    // getter for image resource id
+    public int getImageResId() { return imageResId; }
+}
