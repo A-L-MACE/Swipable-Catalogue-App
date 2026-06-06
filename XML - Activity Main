@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="MainActivity">
+
+    <!-- imageview for main thumbnail display -->
+    <ImageView
+        android:id="@+id/thumbnail_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="4dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/thumb_border"
+        tools:ignore="ContentDescription,RedundantNamespace" />
+
+    <!-- spinner to select category -->
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- viewpager2 for swiping main content -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_weight="1" />
+
+    <!-- recyclerview to display thumbnail list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/thumbnailRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- horizontal layout for previous and next buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- previous button -->
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="previous"
+            tools:ignore="HardcodedText" />
+
+        <!-- spacer between buttons -->
+        <View
+            android:layout_width="24dp"
+            android:layout_height="1dp" />
+
+        <!-- next button -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+</LinearLayout>
